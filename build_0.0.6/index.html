@@ -1,76 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Unity WebGL Mobile Template</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-
+  <head>
+    <meta charset="utf-8" />
+    <title>{{{ PRODUCT_NAME }}}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#000000" />
     <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            width: 100%;
-            height: 100%;
-            background-color: black;
-            touch-action: none;
-        }
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #000000;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        font-family: sans-serif;
+        touch-action: none;
+      }
 
-        #unity-container {
-            width: 100vw;
-            height: 100vh;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
+      #unity-container {
+        width: 100vw;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
 
-        canvas {
-            width: 100% !important;
-            height: 100% !important;
-            max-width: 100%;
-            max-height: 100%;
-            image-rendering: pixelated;
-            touch-action: none;
-        }
-
-        #unity-loading-bar {
-            display: none; /* Optional: Hide Unity loading bar */
-        }
+      canvas {
+        width: 100% !important;
+        height: 100% !important;
+        background-color: #000000;
+      }
     </style>
-</head>
-<body>
-<div id="unity-container" class="unity-desktop">
-    <canvas id="unity-canvas"></canvas>
-</div>
-<script>
-    const buildUrl = "Build";
-    const loaderUrl = buildUrl + "/build_0.0.6.loader.js";
-    const config = {
-        dataUrl: buildUrl + "/build_0.0.6.data",
-        frameworkUrl: buildUrl + "/build_0.0.6.framework.js",
-        codeUrl: buildUrl + "/build_0.0.6.wasm",
+  </head>
+  <body>
+    <div id="unity-container">
+      <canvas id="unity-canvas"></canvas>
+    </div>
+
+    <script src="Build/{{{ LOADER_FILENAME }}}"></script>
+    <script>
+      const buildUrl = "Build";
+      const config = {
+        dataUrl: buildUrl + "/{{{ DATA_FILENAME }}}",
+        frameworkUrl: buildUrl + "/{{{ FRAMEWORK_FILENAME }}}",
+        codeUrl: buildUrl + "/{{{ CODE_FILENAME }}}",
         streamingAssetsUrl: "StreamingAssets",
-        companyName: "DefaultCompany",
-        productName: "telegram_app",
-        productVersion: "1.0"
-    };
+        companyName: "{{{ COMPANY_NAME }}}",
+        productName: "{{{ PRODUCT_NAME }}}",
+        productVersion: "{{{ PRODUCT_VERSION }}}",
+        devicePixelRatio: 1,
+      };
 
-    const canvas = document.querySelector("#unity-canvas");
+      const canvas = document.getElementById("unity-canvas");
 
-    createUnityInstance(canvas, config).then((unityInstance) => {
-        window.unityInstance = unityInstance;
-    }).catch((message) => {
-        alert(message);
-    });
-
-    // Optional: fix desktop window to mobile size
-    window.onload = () => {
-        if (!/Mobi|Android|iPhone/i.test(navigator.userAgent)) {
-            canvas.style.width = "360px";
-            canvas.style.height = "640px";
-        }
-    };
-</script>
-</body>
+      createUnityInstance(canvas, config)
+        .then((unityInstance) => {
+          console.log("Unity loaded");
+        })
+        .catch((message) => {
+          console.error("Unity load failed:", message);
+        });
+    </script>
+  </body>
 </html>
