@@ -1,0 +1,13 @@
+/*.br
+  Content-Encoding: br
+
+/*.js.br
+  Content-Encoding: br
+  Content-Type: application/javascript
+
+/*.wasm.br
+  Content-Encoding: br
+  Content-Type: application/wasm
+
+/*.data.br
+  Content-Encoding: br
